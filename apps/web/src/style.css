@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500&display=swap");
+
+@theme {
+  --color-bg: #0a0a0a;
+  --color-surface: #111111;
+  --color-text: #e8e8e8;
+  --color-muted: #666666;
+  --color-accent: #3b82f6;
+
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", monospace;
+  --font-sans: "Inter", sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: #0a0a0a;
+  color: #e8e8e8;
+  font-family: "Inter", sans-serif;
+}
