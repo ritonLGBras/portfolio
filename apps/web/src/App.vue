@@ -13,27 +13,23 @@
       </section>
 
       <section id="experience" class="section">
-        <!-- ExperienceSection component goes here (Task 6) -->
         <h2 class="section-heading">Experience</h2>
-        <p class="text-muted font-mono text-sm">Coming soon...</p>
+        <ExperienceSection />
       </section>
 
       <section id="skills" class="section">
-        <!-- SkillsSection component goes here (Task 7) -->
         <h2 class="section-heading">Skills</h2>
-        <p class="text-muted font-mono text-sm">Coming soon...</p>
+        <SkillsSection />
       </section>
 
       <section id="projects" class="section">
-        <!-- ProjectsSection component goes here (Task 8) -->
         <h2 class="section-heading">Projects</h2>
-        <p class="text-muted font-mono text-sm">Coming soon...</p>
+        <ProjectsSection />
       </section>
 
       <section id="ambitions" class="section">
-        <!-- AmbitionsSection component goes here (Task 9) -->
         <h2 class="section-heading">Ambitions</h2>
-        <p class="text-muted font-mono text-sm">Coming soon...</p>
+        <AmbitionsSection />
       </section>
     </main>
 
@@ -66,6 +62,10 @@ import { ref } from 'vue'
 import NavBar from './components/NavBar.vue'
 import ChatPanel from './components/ChatPanel.vue'
 import { useChatStore } from './store/chat'
+import ExperienceSection from './components/ExperienceSection.vue'
+import SkillsSection from './components/SkillsSection.vue'
+import ProjectsSection from './components/ProjectsSection.vue'
+import AmbitionsSection from './components/AmbitionsSection.vue'
 
 const chatStore = useChatStore()
 const chatInput = ref('')
