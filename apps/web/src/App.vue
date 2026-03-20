@@ -8,7 +8,7 @@
       <section id="hero" class="section">
         <h1 class="font-mono text-4xl text-text mb-4">Henri Gerardin</h1>
         <p class="text-muted text-lg max-w-xl">
-          Co-founder &amp; engineer at Mayday. Building AI-native products in Paris.
+          Engineer at Mayday. Building AI-native products in Paris.
         </p>
       </section>
 
