@@ -1,14 +1,15 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
   "builds": [
     {
       "src": "apps/api/dist/main.js",
       "use": "@vercel/node",
-      "config": { "includeFiles": ["data/**"] }
+      "config": {
+        "includeFiles": ["data/**", "apps/api/dist/**"]
+      }
     },
     {
-      "src": "apps/web/dist/**",
+      "src": "apps/web/dist/**/*",
       "use": "@vercel/static"
     }
   ],
@@ -16,6 +17,10 @@
     {
       "src": "/api/(.*)",
       "dest": "apps/api/dist/main.js"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/apps/web/dist/assets/$1"
     },
     {
       "handle": "filesystem"

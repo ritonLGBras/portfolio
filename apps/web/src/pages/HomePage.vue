@@ -51,7 +51,7 @@ import ChatPanel from '../components/ChatPanel.vue';
 import { useChatStore } from '../store/chat';
 
 const chat = useChatStore();
-const ownerName = 'Your Name';
+const ownerName = 'Henri Gerardin';
 const heroInput = ref('');
 
 async function sendFromHero() {
