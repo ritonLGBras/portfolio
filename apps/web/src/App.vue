@@ -1,23 +1,47 @@
 <template>
   <div class="app" :class="{ 'split-active': chatStore.messages.length > 0 }">
-    <!-- Sticky navbar -->
     <NavBar />
 
-    <!-- Content column -->
     <main class="content-col">
-      <section id="hero" class="section hero-section">
-        <h1 class="font-mono text-4xl text-text mb-4">Henri Gerardin</h1>
-        <p class="text-muted text-lg max-w-xl">
-          Engineer at Mayday. Building AI-native products in Paris.
-        </p>
+
+      <!-- ── Hero: full-viewport landing ── -->
+      <section id="hero" class="hero-section">
+        <div class="hero-content">
+          <h1 class="hero-name">Henri Gerardin</h1>
+          <p class="hero-tagline">
+            Engineer at Mayday. Building AI-native products in Paris.
+          </p>
+        </div>
+
+        <!-- Chat bar lives inside hero so it scrolls with it initially -->
+        <div
+          v-if="chatStore.messages.length === 0"
+          class="chat-bar"
+          :class="{ docked: scrolled }"
+        >
+          <form @submit.prevent="sendInitial" class="chat-bar-form">
+            <input
+              v-model="chatInput"
+              type="text"
+              placeholder="Ask me anything about Henri..."
+              class="chat-bar-input"
+              autofocus
+            />
+            <button type="submit" class="chat-bar-btn" :disabled="!chatInput.trim()">
+              Ask
+            </button>
+          </form>
+        </div>
+
+        <!-- Scroll hint -->
+        <div class="chevron-hint" v-show="!scrolled && chatStore.messages.length === 0">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
       </section>
 
-      <div class="chevron-hint" v-show="!scrolled && chatStore.messages.length === 0">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      </div>
-
+      <!-- ── Content sections ── -->
       <section id="experience" class="section">
         <h2 class="section-heading">Experience</h2>
         <ExperienceSection />
@@ -37,6 +61,7 @@
         <h2 class="section-heading">Ambitions</h2>
         <AmbitionsSection />
       </section>
+
     </main>
 
     <!-- Chat panel (right side, split mode only) -->
@@ -44,22 +69,6 @@
       <ChatPanel />
     </aside>
 
-    <!-- Bottom-pinned chat input bar (pre-chat mode only) -->
-    <div v-if="chatStore.messages.length === 0" class="chat-bar" :class="{ docked: scrolled }">
-      <form @submit.prevent="sendInitial" class="chat-bar-form">
-        <span class="font-mono text-accent mr-2 select-none">›</span>
-        <input
-          v-model="chatInput"
-          type="text"
-          placeholder="Ask Henri anything..."
-          class="chat-bar-input"
-          autofocus
-        />
-        <button type="submit" class="chat-bar-btn" :disabled="!chatInput.trim()">
-          Ask
-        </button>
-      </form>
-    </div>
   </div>
 </template>
 
