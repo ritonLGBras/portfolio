@@ -1,30 +1,28 @@
 <template>
-  <div class="h-full flex flex-col bg-bg">
-    <div class="flex-1 overflow-y-auto p-6 space-y-4">
-      <div v-if="!chat.messages.length" class="text-muted text-center py-8 font-mono">
+  <div class="chat-panel">
+    <div class="chat-messages" ref="messagesEl">
+      <div v-if="!chat.messages.length" class="chat-empty">
         <span class="animate-pulse">_</span> Awaiting your question...
       </div>
-      <div v-for="(msg, i) in chat.messages" :key="i" class="font-mono text-sm">
-        <div class="text-muted mb-1">{{ msg.role === 'user' ? 'you >' : 'assistant >' }}</div>
-        <div class="text-text whitespace-pre-wrap">{{ msg.content }}</div>
+      <div v-for="(msg, i) in chat.messages" :key="i" class="chat-message">
+        <div class="msg-role">{{ msg.role === 'user' ? 'you ›' : 'henri ›' }}</div>
+        <div class="msg-content">{{ msg.content }}</div>
       </div>
-      <div v-if="chat.isLoading" class="text-muted font-mono text-sm animate-pulse">
-        thinking...
-      </div>
+      <div v-if="chat.isLoading" class="msg-thinking">thinking...</div>
     </div>
-    <form @submit.prevent="send" class="p-4 border-t border-gray-800 flex gap-2">
+
+    <form @submit.prevent="send" class="chat-input-row">
+      <span class="font-mono text-accent mr-2 select-none">›</span>
       <input
         v-model="input"
         type="text"
-        placeholder="Ask me anything..."
-        class="flex-1 bg-surface border border-gray-700 rounded px-4 py-2 text-text font-mono text-sm focus:outline-none focus:border-accent"
+        placeholder="Ask anything..."
+        class="chat-input"
         :disabled="chat.isLoading"
+        ref="inputEl"
+        autofocus
       />
-      <button
-        type="submit"
-        class="bg-accent text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-600 transition-colors disabled:opacity-50"
-        :disabled="chat.isLoading"
-      >
+      <button type="submit" class="chat-send-btn" :disabled="chat.isLoading || !input.trim()">
         Send
       </button>
     </form>
@@ -32,15 +30,130 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useChatStore } from '../store/chat';
+import { ref, watch, nextTick } from 'vue'
+import { useChatStore } from '../store/chat'
 
-const chat = useChatStore();
-const input = ref('');
+const chat = useChatStore()
+const input = ref('')
+const messagesEl = ref<HTMLElement | null>(null)
+const inputEl = ref<HTMLInputElement | null>(null)
 
 async function send() {
-  if (!input.value.trim() || chat.isLoading) return;
-  await chat.send(input.value);
-  input.value = '';
+  if (!input.value.trim() || chat.isLoading) return
+  await chat.send(input.value)
+  input.value = ''
+  await nextTick()
+  scrollToBottom()
 }
+
+function scrollToBottom() {
+  if (messagesEl.value) {
+    messagesEl.value.scrollTop = messagesEl.value.scrollHeight
+  }
+}
+
+watch(() => chat.messages.length, async () => {
+  await nextTick()
+  scrollToBottom()
+})
 </script>
+
+<style>
+@reference "../style.css";
+
+.chat-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.chat-empty {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.chat-message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.msg-role {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.msg-content {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.msg-thinking {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.chat-input-row {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #1a1a1a;
+  gap: 0.5rem;
+}
+
+.chat-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  caret-color: var(--color-accent);
+}
+
+.chat-input::placeholder {
+  color: var(--color-muted);
+}
+
+.chat-send-btn {
+  padding: 0.25rem 0.75rem;
+  background: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.chat-send-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+</style>
