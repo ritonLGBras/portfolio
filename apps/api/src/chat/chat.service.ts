@@ -12,7 +12,7 @@ interface ChatMessage {
 
 @Injectable()
 export class ChatService {
-  private readonly DATA_DIR = path.join(process.cwd(), '../../data');
+  private readonly DATA_DIR = path.join(__dirname, '..', 'data');
 
   constructor(private readonly httpService: HttpService) {}
 

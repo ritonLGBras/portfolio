@@ -4,7 +4,7 @@ import * as path from 'path';
 
 @Injectable()
 export class ContentService {
-  private readonly DATA_DIR = path.join(process.cwd(), '../../data');
+  private readonly DATA_DIR = path.join(__dirname, '..', 'data');
 
   private readonly SECTION_MAP: Record<string, string> = {
     bio: 'bio.md',
