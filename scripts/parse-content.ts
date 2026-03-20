@@ -29,7 +29,7 @@ function extractSection(lines: string[], heading: string): string[] {
 function extractBullets(lines: string[]): string[] {
   return lines
     .filter(l => l.trim().startsWith('- '))
-    .map(l => l.replace(/^- /, '').trim());
+    .map(l => l.trim().replace(/^- /, '').trim());
 }
 
 function warnMissing(field: string, file: string) {
@@ -90,7 +90,7 @@ function parseExperience(): ExperienceData {
           }
         }
         if (lines[j].trim().startsWith('- ')) {
-          role.bullets!.push(lines[j].replace(/^- /, '').trim());
+          role.bullets!.push(lines[j].trim().replace(/^- /, '').trim());
         }
         j++;
       }
@@ -110,6 +110,9 @@ function parseExperience(): ExperienceData {
         eduLines.push(lines[j]);
         j++;
       }
+      // ASSUMPTION: School name is on a bold line (**School Name**) and the detail
+      // line (Degree · Period · Location) is a separate line containing a 4-digit year.
+      // This breaks if the school name itself contains a year.
       // First **bold** line is school name
       const boldLine = eduLines.find(l => l.trim().startsWith('**'));
       // First line matching a 4-digit year is the details line
@@ -290,6 +293,8 @@ function parseProjects(): ProjectData[] {
 function main() {
   console.log('[parse-content] Parsing data/*.md...');
 
+  // bio.md is intentionally excluded — it is used for AI context (system prompt) only,
+  // not for UI rendering. See data/CONTENT_SPEC.md for details.
   const content = {
     experience: parseExperience(),
     stack: parseStack(),
