@@ -116,7 +116,6 @@ async function sendInitial() {
 .content-col {
   grid-area: content;
   overflow-y: auto;
-  padding-bottom: 5rem; /* space for pinned chat bar */
 }
 
 .app.split-active .content-col {
