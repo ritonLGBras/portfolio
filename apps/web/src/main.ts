@@ -1,7 +1,7 @@
 import { createApp } from "vue"
 import { createPinia } from "pinia"
 import { PiniaSharedState } from "pinia-shared-state"
-import router from "./router"
+import { router } from "./router"
 import App from "./App.vue"
 import "./style.css"
 
