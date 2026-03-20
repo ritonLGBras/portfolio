@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 
+const API_BASE = import.meta.env.VITE_API_URL ?? '';
+
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
@@ -18,7 +20,7 @@ export const useChatStore = defineStore('chat', {
       this.messages.push({ role: 'user', content: message });
 
       try {
-        const res = await fetch('/api/chat/ask', {
+        const res = await fetch(`${API_BASE}/api/chat/ask`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

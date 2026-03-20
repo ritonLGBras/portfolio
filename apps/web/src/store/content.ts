@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
-const BASE = '/api/content';
+const API_BASE = import.meta.env.VITE_API_URL ?? '';
+const BASE = `${API_BASE}/api/content`;
 
 interface ContentData {
   bio: string;
