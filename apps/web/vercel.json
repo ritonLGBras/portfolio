@@ -1,0 +1,4 @@
+{
+  "buildCommand": "cd ../.. && npx ts-node --project scripts/tsconfig.json scripts/parse-content.ts && npm run build --workspace=apps/web",
+  "outputDirectory": "dist"
+}
