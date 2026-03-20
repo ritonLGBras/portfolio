@@ -26,6 +26,10 @@ Required structure:
 {Degree} · {Year} – {Year} · {City, Country}
 ```
 
+The parser splits each `## …` heading on ` — ` (space + em dash U+2014 + space) to
+extract `{Org}` and `{Role}`. `roles` is a list: the parser collects **all**
+`## {Org} — {Role}` headings it finds (zero-to-many).
+
 Parsed into:
 
 ```json
@@ -65,7 +69,9 @@ Required structure:
 
 Level must be one of: `expert`, `comfortable`, `learning`. The text after `—` starts
 with the level keyword; any additional text after a comma is a free-text qualifier
-and is ignored by the parser.
+and is stripped/discarded by the parser — the output `name` field never contains
+the qualifier portion. Example: `TypeScript — expert, primary language` →
+`{ "name": "TypeScript", "level": "expert" }` (qualifier discarded).
 
 Parsed into:
 
@@ -93,7 +99,8 @@ Required structure:
 
 ## What Excites Me Next
 
-{one or more paragraphs — first sentence used as headline}
+{one or more paragraphs — headline extracted as raw markdown (inline formatting
+like **bold** preserved), split on the first `.` character}
 
 ## The Problems I Want to Solve
 
@@ -171,3 +178,4 @@ Parsed into:
 ## `bio.md`
 
 Used only for AI context (system prompt). Not parsed into `content.json`.
+Free-form markdown, no required structure.
