@@ -1,29 +1,40 @@
 # Technical Stack
 
-<!-- FILL_IN: Group technologies by category. For each, note your proficiency (learning / comfortable / expert) and years of experience. Be honest — this feeds the AI that talks to engineers. -->
-<!-- PROMPT_github: Run `gh api repos/{owner}/{repo}/languages` for your top 5 repos. Aggregate the language percentages across all repos to find your most-used languages. -->
-<!-- PROMPT_confluence: Search "tech stack" OR "architecture" pages you authored. Extract every technology mentioned and your role with it. -->
-<!-- PROMPT_jira: Search components or labels on tickets you've resolved. These often map to services/technologies you've worked with. -->
-
 ## Languages
-- TypeScript — expert, 4+ years
-- Python — learning
-- [Add more]
+
+- TypeScript — expert, primary language
+- JavaScript — expert
+- Python — comfortable
+- PHP — comfortable
 
 ## Frontend
-- Vue 3 / Nuxt — 
-- React — 
-- Tailwind CSS — 
+
+- Vue 3 (Composition API, Pinia, Vue Router) — expert
+- Vite — comfortable
+- Tailwind CSS — comfortable
+- HTML / CSS — expert
 
 ## Backend
-- NestJS — 
-- Node.js — 
-- FastAPI — 
+
+- NestJS (Node.js) — comfortable
+- FastAPI (Python) — learning
+- Laravel (PHP) — comfortable
+- REST APIs — expert
+
+## AI / Data
+
+- LLMs (Groq, OpenAI-compatible APIs) — comfortable
+- RAG (Retrieval-Augmented Generation) — comfortable
+- Vector search fundamentals — learning
 
 ## Infrastructure & Tooling
-- Docker — 
-- Vercel — 
-- [Cloud provider] — 
+
+- Vercel — comfortable
+- Docker — comfortable
+- Git / GitHub — expert
+- npm workspaces / monorepo — comfortable
 
 ## Databases
-- [Database] — 
+
+- PostgreSQL — comfortable
+- SQL — comfortable
