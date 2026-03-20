@@ -45,7 +45,7 @@
     </aside>
 
     <!-- Bottom-pinned chat input bar (pre-chat mode only) -->
-    <div v-if="chatStore.messages.length === 0" class="chat-bar">
+    <div v-if="chatStore.messages.length === 0" class="chat-bar" :class="{ docked: scrolled }">
       <form @submit.prevent="sendInitial" class="chat-bar-form">
         <span class="font-mono text-accent mr-2 select-none">›</span>
         <input
@@ -149,22 +149,29 @@ async function sendInitial() {
   margin-bottom: 2rem;
 }
 
-/* Bottom chat bar */
+/* ── Chat bar: hero state (landing) ── */
 .chat-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem 3rem;
-  background: var(--color-bg);
-  border-top: 1px solid #1a1a1a;
+  padding: 2rem 3rem 2.5rem;
+  background: transparent;
   z-index: 50;
+  transition: all 0.3s ease;
 }
 
 .chat-bar-form {
   display: flex;
   align-items: center;
-  max-width: 720px;
+  max-width: 640px;
+  margin: 0 auto;
+  background: #111;
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.15);
+  transition: box-shadow 0.2s ease;
+}
+
+.chat-bar-form:focus-within {
+  box-shadow: 0 0 32px rgba(59, 130, 246, 0.3);
 }
 
 .chat-bar-input {
@@ -174,7 +181,7 @@ async function sendInitial() {
   outline: none;
   color: var(--color-text);
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 1rem;
   caret-color: var(--color-accent);
 }
 
@@ -184,19 +191,53 @@ async function sendInitial() {
 
 .chat-bar-btn {
   margin-left: 1rem;
-  padding: 0.25rem 0.75rem;
+  padding: 0.35rem 0.9rem;
   background: var(--color-accent);
   color: white;
   border: none;
   border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   cursor: pointer;
   font-family: var(--font-mono);
+  transition: opacity 0.15s;
 }
 
 .chat-bar-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* ── Chat bar: docked state (after scroll) ── */
+.chat-bar.docked {
+  position: sticky;
+  top: 57px;
+  padding: 0.6rem 3rem;
+  background: var(--color-bg);
+  border-bottom: 1px solid #1a1a1a;
+  z-index: 90;
+}
+
+.chat-bar.docked .chat-bar-form {
+  max-width: 720px;
+  margin: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.chat-bar.docked .chat-bar-form:focus-within {
+  box-shadow: none;
+}
+
+.chat-bar.docked .chat-bar-input {
+  font-size: 0.875rem;
+}
+
+.chat-bar.docked .chat-bar-btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
 }
 
 .chevron-hint {
