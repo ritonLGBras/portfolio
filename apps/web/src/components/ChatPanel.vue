@@ -1,9 +1,6 @@
 <template>
   <div class="chat-panel">
     <div class="chat-messages" ref="messagesEl">
-      <div v-if="!chat.messages.length" class="chat-empty">
-        <span class="animate-pulse">_</span> Awaiting your question...
-      </div>
       <div v-for="(msg, i) in chat.messages" :key="i" class="chat-message">
         <div class="msg-role">{{ msg.role === 'user' ? 'you ›' : 'henri ›' }}</div>
         <div class="msg-content">{{ msg.content }}</div>
@@ -19,7 +16,6 @@
         placeholder="Ask anything..."
         class="chat-input"
         :disabled="chat.isLoading"
-        ref="inputEl"
         autofocus
       />
       <button type="submit" class="chat-send-btn" :disabled="chat.isLoading || !input.trim()">
@@ -36,14 +32,11 @@ import { useChatStore } from '../store/chat'
 const chat = useChatStore()
 const input = ref('')
 const messagesEl = ref<HTMLElement | null>(null)
-const inputEl = ref<HTMLInputElement | null>(null)
 
 async function send() {
   if (!input.value.trim() || chat.isLoading) return
   await chat.send(input.value)
   input.value = ''
-  await nextTick()
-  scrollToBottom()
 }
 
 function scrollToBottom() {
@@ -77,14 +70,6 @@ watch(() => chat.messages.length, async () => {
   gap: 1.5rem;
 }
 
-.chat-empty {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--color-muted);
-  text-align: center;
-  margin-top: 2rem;
-}
-
 .chat-message {
   display: flex;
   flex-direction: column;
@@ -110,10 +95,10 @@ watch(() => chat.messages.length, async () => {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--color-muted);
-  animation: pulse 1.2s infinite;
+  animation: chat-thinking-pulse 1.2s infinite;
 }
 
-@keyframes pulse {
+@keyframes chat-thinking-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
 }
