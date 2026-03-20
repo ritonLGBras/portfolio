@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import NavBar from './components/NavBar.vue'
 import ChatPanel from './components/ChatPanel.vue'
 import { useChatStore } from './store/chat'
@@ -69,6 +69,15 @@ import AmbitionsSection from './components/AmbitionsSection.vue'
 
 const chatStore = useChatStore()
 const chatInput = ref('')
+
+const scrolled = ref(false)
+
+function onScroll() {
+  scrolled.value = window.scrollY > 10
+}
+
+onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
+onUnmounted(() => window.removeEventListener('scroll', onScroll))
 
 async function sendInitial() {
   if (!chatInput.value.trim()) return
