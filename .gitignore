@@ -7,3 +7,4 @@ __pycache__/
 .venv/
 .vercel/
 .worktrees/
+apps/web/src/generated/content.json
