@@ -5,12 +5,18 @@
 
     <!-- Content column -->
     <main class="content-col">
-      <section id="hero" class="section">
+      <section id="hero" class="section hero-section">
         <h1 class="font-mono text-4xl text-text mb-4">Henri Gerardin</h1>
         <p class="text-muted text-lg max-w-xl">
           Engineer at Mayday. Building AI-native products in Paris.
         </p>
       </section>
+
+      <div class="chevron-hint" v-show="!scrolled && chatStore.messages.length === 0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
 
       <section id="experience" class="section">
         <h2 class="section-heading">Experience</h2>
@@ -191,5 +197,23 @@ async function sendInitial() {
 .chat-bar-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.chevron-hint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0 1rem;
+  color: var(--color-muted);
+  animation: chevron-bounce 2s ease-in-out infinite;
+}
+
+.app.split-active .chevron-hint {
+  display: none;
+}
+
+@keyframes chevron-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(6px); opacity: 1; }
 }
 </style>
