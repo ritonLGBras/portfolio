@@ -13,7 +13,7 @@ Required structure:
 ```
 # Professional Experience
 
-## {Role} — {Org}
+## {Org} — {Role}
 
 **{Year} → {Year|Present} · {City, Country}**
 
@@ -60,9 +60,12 @@ Required structure:
 ## {Category Name}
 
 - {Skill name} — {level}
+- {Skill name} — {level}, {optional free-text qualifier}
 ```
 
-Level must be one of: `expert`, `comfortable`, `learning`
+Level must be one of: `expert`, `comfortable`, `learning`. The text after `—` starts
+with the level keyword; any additional text after a comma is a free-text qualifier
+and is ignored by the parser.
 
 Parsed into:
 
@@ -142,7 +145,14 @@ Required structure:
 ## Outcome
 
 - bullet
+
+## Code Highlights (optional)
+
+{paragraph}
 ```
+
+The `## Code Highlights` section is present in some project files but is **ignored
+by the parser** and not included in the parsed output.
 
 Parsed into:
 
