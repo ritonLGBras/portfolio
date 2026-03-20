@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "builds": [
+    {
+      "src": "apps/api/dist/main.js",
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["data/**"] }
+    },
+    {
+      "src": "apps/web/dist/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "apps/api/dist/main.js"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/apps/web/dist/index.html"
+    }
+  ]
+}
