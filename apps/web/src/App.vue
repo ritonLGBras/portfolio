@@ -7,7 +7,7 @@
       <!-- ── Hero: full-viewport landing ── -->
       <section id="hero" class="hero-section">
         <div class="hero-content">
-          <h1 class="hero-const">const dev = "Henri Gerardin";</h1>
+          <h1 class="hero-const"><span class="syn-keyword">const</span><span class="syn-variable"> dev </span><span class="syn-operator">=</span><span class="syn-string"> "Henri Gerardin"</span><span class="syn-punctuation">;</span></h1>
           <p class="hero-tagline">
             Engineer at Mayday. Building AI-native products in Paris.
           </p>
@@ -170,6 +170,13 @@ async function sendInitial() {
   letter-spacing: -0.01em;
   margin: 0;
 }
+
+/* ── Syntax highlighting (VS Code Dark+ palette) ── */
+.syn-keyword    { color: #569cd6; } /* blue — const/let/var */
+.syn-variable   { color: #9cdcfe; } /* light blue — identifier */
+.syn-operator   { color: #d4d4d4; } /* white-grey — = */
+.syn-string     { color: #ce9178; } /* orange — string literal */
+.syn-punctuation { color: #d4d4d4; } /* white-grey — ; */
 
 .hero-tagline {
   font-size: clamp(0.9rem, 2vw, 1.1rem);
