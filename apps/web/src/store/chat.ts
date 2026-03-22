@@ -39,6 +39,11 @@ export const useChatStore = defineStore('chat', {
         this.isLoading = false;
       }
     },
+    reset() {
+      this.messages = []
+      this.isLoading = false
+      this.isOpen = false
+    },
   },
   share: { enable: true },
 });

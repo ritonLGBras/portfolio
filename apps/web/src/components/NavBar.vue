@@ -1,16 +1,60 @@
 <template>
   <nav class="navbar">
-    <a href="#hero" class="font-mono text-sm text-text hover:text-accent transition-colors no-underline">
-      Henri Gerardin
-    </a>
+    <button class="nav-name" @click="goHome">Henri Gerardin</button>
     <div class="flex gap-6">
-      <a href="#experience" class="nav-link">Experience</a>
-      <a href="#skills" class="nav-link">Skills</a>
-      <a href="#projects" class="nav-link">Projects</a>
-      <a href="#ambitions" class="nav-link">Ambitions</a>
+      <a
+        v-for="link in links"
+        :key="link.id"
+        :href="`#${link.id}`"
+        class="nav-link"
+        :class="{ active: activeSection === link.id }"
+      >{{ link.label }}</a>
     </div>
   </nav>
 </template>
+
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useChatStore } from '../store/chat'
+
+const chatStore = useChatStore()
+
+const links = [
+  { id: 'experience', label: 'Experience' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'ambitions', label: 'Ambitions' },
+]
+
+const activeSection = ref('')
+
+let observer: IntersectionObserver | null = null
+
+function goHome() {
+  chatStore.reset()
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          activeSection.value = entry.target.id
+        }
+      }
+    },
+    { threshold: 0.3 }
+  )
+  const sections = ['hero', 'experience', 'skills', 'projects', 'ambitions']
+  for (const id of sections) {
+    const el = document.getElementById(id)
+    if (el) observer.observe(el)
+  }
+})
+
+onUnmounted(() => observer?.disconnect())
+</script>
 
 <style>
 @reference "../style.css";
@@ -30,6 +74,21 @@
   box-sizing: border-box;
 }
 
+.nav-name {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.nav-name:hover {
+  color: var(--color-accent);
+}
+
 .nav-link {
   font-size: 0.8rem;
   color: var(--color-muted);
@@ -37,7 +96,8 @@
   transition: color 0.15s;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link.active {
   color: var(--color-accent);
 }
 </style>
