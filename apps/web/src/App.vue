@@ -26,7 +26,7 @@
       <!-- ── Hero: full-viewport landing ── -->
       <section id="hero" class="hero-section">
         <div class="hero-content">
-          <h1 class="hero-name">Henri Gerardin</h1>
+          <p class="hero-const">const dev = "Henri Gerardin";</p>
           <p class="hero-tagline">
             Engineer at Mayday. Building AI-native products in Paris.
           </p>
@@ -34,7 +34,7 @@
 
         <!-- Scroll hint -->
         <div class="chevron-hint" v-show="chatStore.messages.length === 0">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </div>
@@ -156,11 +156,11 @@ async function sendInitial() {
   gap: 1rem;
 }
 
-.hero-name {
+.hero-const {
   font-family: var(--font-mono);
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
   color: var(--color-text);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .hero-tagline {
