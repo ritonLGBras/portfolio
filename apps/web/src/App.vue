@@ -26,7 +26,7 @@
       <!-- ── Hero: full-viewport landing ── -->
       <section id="hero" class="hero-section">
         <div class="hero-content">
-          <p class="hero-const">const dev = "Henri Gerardin";</p>
+          <h1 class="hero-const">const dev = "Henri Gerardin";</h1>
           <p class="hero-tagline">
             Engineer at Mayday. Building AI-native products in Paris.
           </p>
@@ -161,6 +161,7 @@ async function sendInitial() {
   font-size: clamp(1.1rem, 3vw, 1.6rem);
   color: var(--color-text);
   letter-spacing: -0.01em;
+  margin: 0;
 }
 
 .hero-tagline {
