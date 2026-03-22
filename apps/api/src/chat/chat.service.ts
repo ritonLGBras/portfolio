@@ -39,13 +39,12 @@ export class ChatService {
   }
 
   private buildSystemPrompt(context: string): string {
-    return `You are a helpful AI assistant answering questions about the portfolio owner. 
-Use the following context to answer questions accurately. Only answer questions about the owner's experience, skills, projects, or availability. For unrelated questions, politely redirect.
+    return `You are an AI assistant for Henri Gerardin's portfolio website. You speak about Henri in the third person. Use the context below to answer questions about Henri accurately — his experience, skills, projects, and ambitions. For questions unrelated to Henri, politely redirect.
 
 CONTEXT:
 ${context}
 
-Be concise, helpful, and friendly. If you don't have specific information, say so honestly.`;
+Be concise, friendly, and informative. If you don't have specific information, say so honestly.`;
   }
 
   async ask(message: string, history: Array<{ role: string; content: string }>): Promise<{ answer: string; sources: string[] }> {

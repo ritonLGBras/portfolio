@@ -2,40 +2,39 @@
   <div class="app" :class="{ 'split-active': chatStore.messages.length > 0 }">
     <NavBar />
 
+    <!-- Chat bar: sticky under navbar, visible until first message sent -->
+    <div
+      v-if="chatStore.messages.length === 0"
+      class="chat-bar"
+    >
+      <form @submit.prevent="sendInitial" class="chat-bar-form">
+        <input
+          v-model="chatInput"
+          type="text"
+          placeholder="Ask me anything about Henri..."
+          class="chat-bar-input"
+          autofocus
+        />
+        <button type="submit" class="chat-bar-btn" :disabled="!chatInput.trim()">
+          Ask
+        </button>
+      </form>
+    </div>
+
     <main class="content-col">
 
       <!-- ── Hero: full-viewport landing ── -->
       <section id="hero" class="hero-section">
         <div class="hero-content">
-          <h1 class="hero-name">Henri Gerardin</h1>
+          <h1 class="hero-const">const dev = "Henri Gerardin";</h1>
           <p class="hero-tagline">
             Engineer at Mayday. Building AI-native products in Paris.
           </p>
         </div>
 
-        <!-- Chat bar lives inside hero so it scrolls with it initially -->
-        <div
-          v-if="chatStore.messages.length === 0"
-          class="chat-bar"
-          :class="{ docked: scrolled }"
-        >
-          <form @submit.prevent="sendInitial" class="chat-bar-form">
-            <input
-              v-model="chatInput"
-              type="text"
-              placeholder="Ask me anything about Henri..."
-              class="chat-bar-input"
-              autofocus
-            />
-            <button type="submit" class="chat-bar-btn" :disabled="!chatInput.trim()">
-              Ask
-            </button>
-          </form>
-        </div>
-
         <!-- Scroll hint -->
-        <div class="chevron-hint" v-show="!scrolled && chatStore.messages.length === 0">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <div class="chevron-hint" v-show="chatStore.messages.length === 0">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </div>
@@ -73,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import NavBar from './components/NavBar.vue'
 import ChatPanel from './components/ChatPanel.vue'
 import { useChatStore } from './store/chat'
@@ -84,15 +83,6 @@ import AmbitionsSection from './components/AmbitionsSection.vue'
 
 const chatStore = useChatStore()
 const chatInput = ref('')
-
-const scrolled = ref(false)
-
-function onScroll() {
-  scrolled.value = window.scrollY > 10
-}
-
-onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
-onUnmounted(() => window.removeEventListener('scroll', onScroll))
 
 async function sendInitial() {
   if (!chatInput.value.trim()) return
@@ -108,10 +98,11 @@ async function sendInitial() {
 .app {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
   grid-template-columns: 1fr;
   grid-template-areas:
     "nav"
+    "bar"
     "content";
 }
 
@@ -119,6 +110,7 @@ async function sendInitial() {
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
     "nav nav"
+    "bar bar"
     "content chat";
 }
 
@@ -164,11 +156,12 @@ async function sendInitial() {
   gap: 1rem;
 }
 
-.hero-name {
+.hero-const {
   font-family: var(--font-mono);
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
   color: var(--color-text);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+  margin: 0;
 }
 
 .hero-tagline {
@@ -178,18 +171,22 @@ async function sendInitial() {
   line-height: 1.6;
 }
 
-/* ── Chat bar: hero state ── */
+/* ── Chat bar: always sticky under navbar ── */
 .chat-bar {
-  width: 100%;
-  max-width: 680px;
-  z-index: 50;
-  transition: all 0.25s ease;
+  position: sticky;
+  top: 57px;
+  z-index: 90;
+  padding: 0.5rem 3rem;
+  background: var(--color-bg);
+  border-bottom: 1px solid #1e1e1e;
+  grid-area: bar;
 }
 
 .chat-bar-form {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  max-width: 720px;
   background: #0f0f0f;
   border: 1px solid var(--color-accent);
   border-radius: 10px;
@@ -246,40 +243,6 @@ async function sendInitial() {
 .chat-bar-btn:disabled {
   opacity: 0.35;
   cursor: not-allowed;
-}
-
-/* ── Chat bar: docked state (after scroll) ── */
-.chat-bar.docked {
-  position: sticky;
-  top: 57px;
-  max-width: 100%;
-  padding: 0.5rem 3rem;
-  background: var(--color-bg);
-  border-bottom: 1px solid #1e1e1e;
-  z-index: 90;
-}
-
-.chat-bar.docked .chat-bar-form {
-  max-width: 720px;
-  border-radius: 6px;
-  padding: 0.5rem 0.875rem;
-  background: #0f0f0f;
-  box-shadow: none;
-  border-color: #2a2a2a;
-}
-
-.chat-bar.docked .chat-bar-form:focus-within {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 16px rgba(59, 130, 246, 0.15);
-}
-
-.chat-bar.docked .chat-bar-input {
-  font-size: 0.875rem;
-}
-
-.chat-bar.docked .chat-bar-btn {
-  padding: 0.3rem 0.875rem;
-  font-size: 0.75rem;
 }
 
 /* ── Scroll chevron ── */
