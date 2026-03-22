@@ -1,8 +1,14 @@
 <template>
   <div class="chat-panel">
+    <!-- Header with close button -->
+    <div class="chat-header">
+      <span class="chat-header-label">chat</span>
+      <button class="chat-close-btn" @click="chat.reset()" title="Close chat">×</button>
+    </div>
+
     <div class="chat-messages" ref="messagesEl">
       <div v-for="(msg, i) in chat.messages" :key="i" class="chat-message">
-        <div class="msg-role">{{ msg.role === 'user' ? 'you ›' : 'henri ›' }}</div>
+        <div class="msg-role">{{ msg.role === 'user' ? 'you ›' : 'ai ›' }}</div>
         <div class="msg-content">{{ msg.content }}</div>
       </div>
       <div v-if="chat.isLoading" class="msg-thinking">thinking...</div>
@@ -53,6 +59,38 @@ watch(() => chat.messages.length, async () => {
 
 <style>
 @reference "../style.css";
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid #1a1a1a;
+  flex-shrink: 0;
+}
+
+.chat-header-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.chat-close-btn {
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.chat-close-btn:hover {
+  color: var(--color-text);
+}
 
 .chat-panel {
   height: 100%;
