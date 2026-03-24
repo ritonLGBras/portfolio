@@ -36,6 +36,10 @@ function goHome() {
 }
 
 onMounted(() => {
+  // Use a narrow rootMargin band so only the section crossing the top ~20% of
+  // the viewport is considered "active". This prevents a section below (e.g.
+  // Skills) from stealing the highlight while the section above (Experience)
+  // is still the primary visible one.
   observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -44,7 +48,13 @@ onMounted(() => {
         }
       }
     },
-    { threshold: 0.3 }
+    {
+      // Top of the detection zone: flush with the navbar (0px from top)
+      // Bottom of the detection zone: 80% up from the bottom (so only the
+      // top 20% of the viewport counts as the trigger strip)
+      rootMargin: '0px 0px -80% 0px',
+      threshold: 0,
+    }
   )
   const sections = ['hero', 'experience', 'skills', 'projects', 'ambitions']
   for (const id of sections) {
