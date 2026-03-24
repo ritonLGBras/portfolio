@@ -5,7 +5,7 @@
     "apps/*"
   ],
   "scripts": {
-    "dev:web": "npm run dev --workspace=apps/web",
+    "dev:web": "npx ts-node --project scripts/tsconfig.json scripts/parse-content.ts && npm run dev --workspace=apps/web",
     "dev:api": "npm run start:dev --workspace=apps/api",
     "dev:ai": "npm run dev --workspace=apps/ai-engine",
     "build:web": "npx ts-node --project scripts/tsconfig.json scripts/parse-content.ts && npm run build --workspace=apps/web",
