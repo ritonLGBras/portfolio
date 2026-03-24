@@ -2,13 +2,13 @@
   <nav class="navbar">
     <button class="nav-name" @click="goHome">Henri Gerardin</button>
     <div class="flex gap-6">
-      <a
+      <button
         v-for="link in links"
         :key="link.id"
-        :href="`#${link.id}`"
         class="nav-link"
         :class="{ active: activeSection === link.id }"
-      >{{ link.label }}</a>
+        @click="scrollTo(link.id)"
+      >{{ link.label }}</button>
     </div>
   </nav>
 </template>
@@ -33,6 +33,10 @@ let observer: IntersectionObserver | null = null
 function goHome() {
   chatStore.reset()
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function scrollTo(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 }
 
 onMounted(() => {
@@ -101,8 +105,13 @@ onUnmounted(() => observer?.disconnect())
 
 .nav-link {
   font-size: 0.8rem;
+  font-family: inherit;
   color: var(--color-muted);
   text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
   transition: color 0.15s;
 }
 
