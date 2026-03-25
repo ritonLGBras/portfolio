@@ -14,6 +14,12 @@
       </div>
     </div>
   </div>
+
+  <div class="skills-legend">
+    <span class="skill-pill level-expert">expert</span>
+    <span class="skill-pill level-comfortable">comfortable</span>
+    <span class="skill-pill level-learning">learning</span>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -56,4 +62,12 @@ import content from '../generated/content.json'
 .skill-pill.level-expert    { color: #e8e8e8; border-color: #3b82f6; }
 .skill-pill.level-comfortable { color: rgba(232, 232, 232, 0.8); }
 .skill-pill.level-learning  { color: rgba(232, 232, 232, 0.6); font-style: italic; }
+
+.skills-legend {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #1a1a1a;
+}
 </style>
